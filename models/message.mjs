@@ -1,40 +1,27 @@
-// this function first creates the db schema and thereafter returns the respective model
+import mongoose from 'mongoose';
 
-export default function initMessageModel(mongoose, dataTypes) {
-  // create the schema
-  const messsageSchema = new mongoose.Schema({
-    message: {
-      type: dataTypes.String,
-      required: true,
-    },
-    username: {
-      type: dataTypes.String,
-      required: true,
-    },
-    timestamp: {
-      type: dataTypes.Date,
-      default: Date.now,
-    },
-    room_id: {
-      type: dataTypes.String,
-      required: true,
-    },
-  });
-  // create the model based off the schema
-  return mongoose.model('Messsage', messsageSchema);
-}
+const Schema = mongoose.Schema;
+const dataTypes = mongoose.Schema.Types;
 
-// import Person from './person';
-// const mongoose = require('mongoose');
+// define the schema for this model
+const schema = new Schema({
+  message: {
+    type: dataTypes.String,
+    required: true,
+  },
+  username: {
+    type: dataTypes.String,
+    required: true,
+  },
+  timestamp: {
+    type: dataTypes.Date,
+    default: Date.now,
+  },
+  room_id: {
+    type: dataTypes.String,
+    required: true,
+  },
+});
 
-// const Schema = mongoose.Schema;
-
-// const Chat = new Schema({
-//   participants: {
-//     type: [Person],
-//   },
-//   message: String,
-//   timeStamp: String,
-// });
-
-// module.exports = mongoose.model('Chat', Chat);
+// create the model and export it
+export default mongoose.model('Message', schema);
