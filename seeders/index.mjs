@@ -12,8 +12,8 @@ try {
   // run the functions that will seed the db
   await Promise.all([
     insertUserSeed(db),
-    insertRoomSeed(db),
     insertMessageSeed(db),
+    insertRoomSeed(db),
   ]);
   // disconnect from the mongodb server
   mongoose.disconnect();
