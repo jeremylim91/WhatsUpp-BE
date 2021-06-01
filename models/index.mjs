@@ -14,4 +14,6 @@ db.User = userModel;
 db.Room = roomModel;
 db.Message = messageModel;
 
+db.mongoose = mongoose;
+
 export default db;

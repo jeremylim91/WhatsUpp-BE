@@ -5,6 +5,9 @@ const dataTypes = mongoose.Schema.Types;
 
 // define the schema for this model
 const schema = new Schema({
+  _id: {
+    type: dataTypes.ObjectId,
+  },
   name: {
     type: dataTypes.String,
     required: true,
@@ -14,8 +17,12 @@ const schema = new Schema({
     required: false,
   },
   createdBy: {
-    type: dataTypes.String,
+    type: dataTypes.ObjectId,
     required: true,
+  },
+  associated_messages: {
+    type: dataTypes.Array,
+    default: [],
   },
 });
 

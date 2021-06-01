@@ -5,6 +5,9 @@ const dataTypes = mongoose.Schema.Types;
 
 // Define the schema for this model
 const schema = new Schema({
+  _id: {
+    type: dataTypes.ObjectId,
+  },
   name: {
     type: dataTypes.String,
     required: true,
