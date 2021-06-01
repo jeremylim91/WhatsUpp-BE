@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
 import bindRoutes from './routes.mjs';
 import mongoose from 'mongoose';
-// import {connectionUri, config} from './config/dbconfig.mjs';
+
 // Initialise Express instance
 const app = express();
 
