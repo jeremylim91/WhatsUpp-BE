@@ -4,9 +4,21 @@ import cookieParser from 'cookie-parser';
 import methodOverride from 'method-override';
 import bindRoutes from './routes.mjs';
 import mongoose from 'mongoose';
+import {mongoURI} from './config/dbconfig.mjs';
+import http from 'http';
+import {Server} from 'socket.io';
+const PORT = process.env.PORT || 3004;
 
-// Initialise Express instance
+// Initialise an Express instance; note: do not start listening onto the port until the db is connected. This is to ensure that the server can't receive requests until the db is ready
 const app = express();
+const httpServer = http.createServer(app);
+// create a new socket.io instance and attach it to the http server.
+const io = new Server(httpServer, {
+  cors: {
+    credentials: true,
+    origin: true,
+  },
+});
 
 // Set CORS headers
 app.use(
@@ -31,17 +43,59 @@ app.use(express.static('public'));
 // Bind route definitions to the Express application
 bindRoutes(app);
 
-const mongoURI = 'mongodb://localhost:27017/whatsuppDB';
-
-mongoose
-  .connect(mongoURI, {useNewUrlParser: true, useUnifiedTopology: true})
-  .then(() => {
-    console.log('connected to db');
-
-    // Set Express to listen on the given port
-    const PORT = process.env.PORT || 3004;
-    app.listen(PORT, () => console.log(`listening on port ${PORT}`));
-  })
-  .catch((error) => {
-    console.log(error);
+// connect the db
+try {
+  await mongoose.connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   });
+  console.log('db connected successfully');
+
+  // the "await" above has a blocking effect to ensure tt we don't start listening on the port before the db is up (db connection is a async process)
+  httpServer.listen(PORT, () => console.log(`listening on ${PORT}`));
+} catch (error) {
+  console.log(error);
+}
+
+// mongoose
+//   .connect(mongoURI, {useNewUrlParser: true, useUnifiedTopology: true})
+//   .then(() => {
+//     console.log('connected to db');
+//     // Finally, the server is ready to receive requests; set it to listen on PORT
+//     httpServer.listen(PORT, () => console.log(`listening on ${PORT}`));
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   });
+// mongoose
+//   .connect(mongoURI, {useNewUrlParser: true, useUnifiedTopology: true})
+//   .then(() => {
+//     console.log('connected to db');
+
+//     // Set Express to listen on the given port
+//     // const PORT = process.env.PORT || 3004;
+//     return app.listen(PORT, () => console.log(`listening on port ${PORT}`));
+//   })
+//   .then((server) => {
+//     // once the server is up, create the socket
+//     const io = new Server(server, {
+//       cors: {
+//         credentials: true,
+//         origin: true,
+//       },
+//     });
+//     console.log('socket created');
+//     return io;
+//   })
+//   .then((io) => {
+//     io.on('connection', (socket) => {
+//       console.log(socket.id);
+//     });
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   });
+io.on('connection', (socket) => {
+  console.log(`socket.id is:`);
+  console.log(socket.id);
+});
