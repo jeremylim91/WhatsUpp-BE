@@ -57,44 +57,6 @@ try {
   console.log(error);
 }
 
-// mongoose
-//   .connect(mongoURI, {useNewUrlParser: true, useUnifiedTopology: true})
-//   .then(() => {
-//     console.log('connected to db');
-//     // Finally, the server is ready to receive requests; set it to listen on PORT
-//     httpServer.listen(PORT, () => console.log(`listening on ${PORT}`));
-//   })
-//   .catch((error) => {
-//     console.log(error);
-//   });
-// mongoose
-//   .connect(mongoURI, {useNewUrlParser: true, useUnifiedTopology: true})
-//   .then(() => {
-//     console.log('connected to db');
-
-//     // Set Express to listen on the given port
-//     // const PORT = process.env.PORT || 3004;
-//     return app.listen(PORT, () => console.log(`listening on port ${PORT}`));
-//   })
-//   .then((server) => {
-//     // once the server is up, create the socket
-//     const io = new Server(server, {
-//       cors: {
-//         credentials: true,
-//         origin: true,
-//       },
-//     });
-//     console.log('socket created');
-//     return io;
-//   })
-//   .then((io) => {
-//     io.on('connection', (socket) => {
-//       console.log(socket.id);
-//     });
-//   })
-//   .catch((error) => {
-//     console.log(error);
-//   });
 io.on('connection', (socket) => {
   console.log(`socket.id is:`);
   console.log(socket.id);
