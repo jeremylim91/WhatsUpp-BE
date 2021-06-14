@@ -4,7 +4,7 @@ import {
   CYCLING_BUDDIES_MSGS_OBJ_IDS,
   getAssociatedMsgs,
 } from './objectIds.mjs';
-
+import Pic from './utils.mjs';
 // import the relevant object ids
 const {DEV_HANGOUT_OBJ_ID, FOODIES_UNITE_OBJ_ID, CYCLING_BUDDIES_OBJ_ID} =
   ROOMS_OBJ_IDS;
@@ -30,6 +30,12 @@ const data = [
   },
 ];
 
+// insert the room icon for each room
+data.forEach((room) => {
+  // getGridy accepts an argument which is used to generate a random picture
+  const pic = new Pic(room.name);
+  room.image = pic.getGridy();
+});
 const insertRoomSeed = async (db) => {
   return await db.Room.insertMany(data);
 };

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Pic from './utils.mjs';
 
 const data = [
   {
@@ -22,6 +23,14 @@ const data = [
   },
 ];
 
+// insert the avatar for each of them
+data.forEach((userProfile) => {
+  // getAvatar accepts an argument which is used to generate a random picture. Here, i'm using the username becos it is unqiue and will ensure diferent pictures are generated
+  const pic = new Pic(userProfile.username);
+  userProfile.imageUrl = pic.getAvatar();
+});
+
+// insert the seed data
 const insertUserSeed = async (db) => {
   return await db.User.insertMany(data);
 };

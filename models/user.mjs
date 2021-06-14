@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const dataTypes = mongoose.Schema.Types;
 
 // Define the schema for this model
-const schema = new Schema({
+let schema = new Schema({
   _id: {
     type: dataTypes.ObjectId,
   },
