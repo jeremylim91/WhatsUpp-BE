@@ -1,7 +1,10 @@
 import {getIdxOfLastElInArr} from './utils.mjs';
+import Pic from '../seeders/utils.mjs';
 
 export default function initRoomsController(db) {
   const index = async (req, res) => {
+    console.log(`inside rooms controller: index`);
+
     // query the db to get all the rooms and the most recent msg posted in that room
     try {
       const allRooms = await db.Room.find();
@@ -49,7 +52,32 @@ export default function initRoomsController(db) {
       next(error);
     }
   };
+
+  const create = async (data) => {
+    // destructure room name and userId from the socket data
+    const {roomName, userId} = data;
+    console.log(roomName);
+
+    console.log(`userId is:`);
+    console.log(userId);
+
+    // make call to external api to get an image to the room
+    const roomImg = new Pic(roomName).getGridy();
+
+    try {
+      // create a room instance and save it to the db
+      const newRoomInstance = await db.Room.create({
+        _id: db.mongoose.Types.ObjectId(),
+        name: roomName,
+        image: roomImg,
+        createdBy: userId,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return {
     index,
+    create,
   };
 }
