@@ -38,7 +38,6 @@ export default function initMessagesController(db) {
         // when we've added the last room's chat contents to charData, send the info back to the client
         chatData[roomId] = allMsgsPerRoom;
         if (index === allRooms.length - 1) {
-          console.log(`going to send data to client`);
           res.send(chatData);
         }
       });

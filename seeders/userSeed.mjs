@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Pic from './utils.mjs';
+import {getHashedString} from '../utils/authRelated.mjs';
 
 const data = [
   {
@@ -7,19 +8,19 @@ const data = [
 
     name: 'Jeremy',
     username: 'jeremylim_91',
-    password: 'password1',
+    password: getHashedString('password1'),
   },
   {
     _id: mongoose.Types.ObjectId(),
     name: 'Joshua',
     username: 'joshualim_91',
-    password: 'password1',
+    password: getHashedString('password1'),
   },
   {
     _id: mongoose.Types.ObjectId(),
     name: 'Joseph',
     username: 'josephpok_91',
-    password: 'password1',
+    password: getHashedString('password1'),
   },
 ];
 
